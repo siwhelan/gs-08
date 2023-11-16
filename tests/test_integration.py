@@ -24,7 +24,7 @@ def test_search_by_title():
 
 
 # test ability to return a specific track when searching a library of 2 songs
-# only searching for part of the track
+# and only searching for part of the track
 def test_search_by_part_of_title():
     my_music = MusicLibrary()
     track_1 = Track("Track 1", "Artist 2")
