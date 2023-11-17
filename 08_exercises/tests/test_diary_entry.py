@@ -1,37 +1,46 @@
-class DiaryEntry:
-    # Public Properties:
-    #   title: a string
-    #   contents: a string
+from lib.diary_entry import *
 
-    def __init__(self, title, contents):  # title, contents are strings
-        # Side-effects:
-        #   Sets the title and contents properties
-        pass
 
-    def count_words(self):
-        # Returns:
-        #   An integer representing the number of words in the contents
-        pass
+# test that a title and contents can be returned
+def test_adding_entry_can_be_called_back():
+    diary_entry = DiaryEntry("Title 1", "New entry contents")
+    assert diary_entry.title == "Title 1"
+    assert diary_entry.contents == "New entry contents"
 
-    def reading_time(self, wpm):
-        # Parameters:
-        #   wpm: an integer representing the number of words the user can read
-        #        per minute
-        # Returns:
-        #   An integer representing an estimate of the reading time in minutes
-        #   for the contents at the given wpm.
-        pass
 
-    def reading_chunk(self, wpm, minutes):
-        # Parameters:
-        #   wpm: an integer representing the number of words the user can read
-        #        per minute
-        #   minutes: an integer representing the number of minutes the user has
-        #            to read
-        # Returns:
-        #   A string representing a chunk of the contents that the user could
-        #   read in the given number of minutes.
-        # If called again, `reading_chunk` should return the next chunk,
-        # skipping what has already been read, until the contents is fully read.
-        # The next call after that it should restart from the beginning.
-        pass
+# test that count_words sums the total contents of each entry
+# i.e. a total of 5 words in contents returns 5
+def test_diary_count_words_returns_sum_of_all_words():
+    diary_entry = DiaryEntry("Entry 1 Title", "One two three Four five")
+    assert diary_entry.count_words() == 5
+
+
+# test reading_time with a wpm of 2 and five word content, it should return 3
+def test_reading_time():
+    diary_entry = DiaryEntry("Entry 1 Title", "One two three Four five")
+    assert diary_entry.reading_time(2) == 3
+
+
+# test A string representing a chunk of the contents that the user could
+# read in the given number of minutes.
+def test_readable_first_chunk():
+    diary_entry = DiaryEntry("Entry 1 Title", "One two three Four five")
+    assert diary_entry.reading_chunk(2, 1) == "One two"
+
+
+# If called again, `reading_chunk` should return the next chunk,
+# skipping what has already been read, until the contents is fully read.
+def test_readable_second_chunk():
+    diary_entry = DiaryEntry("Entry 1 Title", "One two three Four five")
+    assert diary_entry.reading_chunk(2, 1) == "One two"
+    assert diary_entry.reading_chunk(2, 1) == "three Four"
+    assert diary_entry.reading_chunk(2, 1) == "five"
+
+
+# The next call after that it should restart from the beginning.
+def test_reading_chunk_resets_after_completion():
+    diary_entry = DiaryEntry("Entry 1 Title", "One two three Four five")
+    assert diary_entry.reading_chunk(2, 1) == "One two"
+    assert diary_entry.reading_chunk(2, 1) == "three Four"
+    assert diary_entry.reading_chunk(2, 1) == "five"
+    assert diary_entry.reading_chunk(2, 1) == "One two"
