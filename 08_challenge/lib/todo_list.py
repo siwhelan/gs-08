@@ -1,7 +1,7 @@
-# File: lib/todo_list.py
 class TodoList:
     def __init__(self):
-        pass
+        self.todo_list = []
+        self.completed = []
 
     def add(self, todo):
         # Parameters:
@@ -10,21 +10,22 @@ class TodoList:
         #   Nothing
         # Side-effects:
         #   Adds the todo to the list of todos
-        pass
+        self.todo_list.append(todo)
 
     def incomplete(self):
         # Returns:
         #   A list of Todo instances representing the todos that are not complete
-        pass
+        return self.todo_list
 
     def complete(self):
         # Returns:
         #   A list of Todo instances representing the todos that are complete
-        pass
+        return self.completed
 
     def give_up(self):
         # Returns:
         #   Nothing
         # Side-effects:
         #   Marks all todos as complete
-        pass
+        for todo in self.todo_list:
+            todo.complete = True
